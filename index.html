@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Encyclopedia (Offline)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="status-toast"></div>
+
+    <div class="container">
+        <header class="main-header">
+            <h1><span class="highlight">Dino</span> Encyclopedia</h1>
+            <div class="toggle-container">
+                <label for="pegawai-mode-toggle">Mode Admin</label>
+                <input type="checkbox" id="pegawai-mode-toggle">
+            </div>
+        </header>
+
+        <div id="viewer-ui">
+            <h2>Peta Penemuan Fosil Global</h2>
+            <div class="map-container">
+                <img src="WorldMap.jpg" alt="Peta Dunia" style="width:100%; display:block;">
+                <div id="map-overlay"></div>
+            </div>
+
+            <p class="hint text-white mt-2 mb-6">*Klik titik pada peta untuk melihat data.</p>
+
+            <div class="accordion-section">
+                <div class="accordion-header" id="public-list-toggle">
+                    <span> Daftar Spesies Dinosaurus</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                
+                <div class="accordion-content" id="public-list-content">
+                    <div class="public-toolbar">
+                        <select id="pubFilterDiet" style="flex:1;"><option value="">Semua Diet</option></select>
+                        <select id="pubFilterPeriode" style="flex:1;"><option value="">Semua Periode</option></select>
+                        <select id="pubFilterFamily" style="flex:1;"><option value="">Semua Family</option></select>
+                        
+                        <div style="border-left:1px solid #ccc; padding-left:10px; display:flex; gap:5px;">
+                            <span style="align-self:center; font-size:0.8rem; color:#666; margin-right:5px;">Urutkan:</span>
+                            <button class="sort-btn" onclick="handlePublicSort('name')">Nama ↕</button>
+                            <button class="sort-btn" onclick="handlePublicSort('period')">Periode ↕</button>
+                        </div>
+                    </div>
+
+                    <div id="public-dino-list" class="public-list-grid">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="admin-ui" class="hidden">
+            <div class="admin-header">
+                <h2>Manajemen Data (Pegawai)</h2>
+                <div class="tabs">
+                    <button id="tab-dino-data" class="active">Data Dinosaurus</button>
+                    <button id="tab-tag-management">Manajemen Tags</button>
+                </div>
+            </div>
+
+            <div id="dino-data-view">
+                <div class="filters">
+                    <h4>Filter:</h4>
+                    <select id="filterDiet"></select>
+                    <select id="filterPeriode"></select>
+                    <select id="filterFamily"></select>
+                    <select id="filterFormasi"></select>
+                </div>
+
+                <div id="table-wrapper">
+                    <table id="dino-table">
+                        <thead>
+                            <tr>
+                                <th onclick="handleSort('name')">Nama ↕</th>
+                                <th onclick="handleSort('family')">Family ↕</th>
+                                <th>Diet</th>
+                                <th>Periode</th>
+                                <th>Formasi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+
+                <button id="show-form-btn" class="btn-primary">Tambah Dinosaurus Baru</button>
+
+                <div id="admin-form-container" class="modal-overlay hidden">
+                    <div class="modal-card" style="max-width: 700px; max-height:90vh; overflow-y:auto;">
+                        <div class="form-header">
+                            <h3>Form Dinosaurus</h3>
+                            <button id="close-form-btn" class="btn-close">X</button>
+                        </div>
+                        <form id="admin-form">
+                            <input type="hidden" id="dinoId">
+                            <div class="form-group"><label>Nama:</label><input type="text" id="dinoName" required></div>
+                            <div class="form-group"><label>Image URL:</label><input type="text" id="dinoImage"></div>
+                            
+                            <div class="form-row">
+                                <div class="form-group"><label>Diet:</label><select id="dinoDiet" required><option>Karnivora</option><option>Herbivora</option><option>Omnivora</option></select></div>
+                                <div class="form-group"><label>Periode:</label><select id="dinoPeriod" required></select></div>
+                                <div class="form-group"><label>Family:</label><select id="dinoFamily" required></select></div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group"><label>Tinggi (m):</label><input type="number" step="any" id="dinoHeight"></div>
+                                <div class="form-group"><label>Panjang (m):</label><input type="number" step="any" id="dinoLength"></div>
+                                <div class="form-group"><label>Berat (t):</label><input type="number" step="any" id="dinoWeight"></div>
+                            </div>
+
+                            <div class="form-group"><label>Formasi:</label><select id="dinoFormation" required></select></div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="dinoPrimary">
+                                <label for="dinoPrimary">Spesies Utama?</label>
+                            </div>
+                            <div class="form-group"><label>Deskripsi:</label><textarea id="dinoDescription" rows="3" required></textarea></div>
+                            
+                            <div class="form-actions">
+                                <button type="button" id="clear-form-btn">Reset</button>
+                                <button type="submit" class="btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tag-manager-view" class="hidden">
+                <div id="tag-management-content" class="grid-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div id="modal-content" class="modal-card">
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="confirm-modal" class="modal-overlay hidden">
+        <div class="modal-card" style="max-width: 400px; text-align: center;">
+            <h3 style="color: #c62828; margin-bottom: 10px;">Konfirmasi Hapus</h3>
+            <p id="confirm-msg" style="margin-bottom: 20px;">Yakin ingin menghapus tag ini?</p>
+            <div class="modal-actions" style="justify-content: center;">
+                <button onclick="closeConfirmModal()" style="padding: 8px 16px; margin-right: 10px;">Batal</button>
+                <button id="confirm-btn-action" class="btn-danger" style="padding: 8px 16px;">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-tag-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                <h3 style="margin:0; color:#5d4037;">Edit Tag</h3>
+                <button onclick="closeEditTagModal()" class="btn-close">X</button>
+            </div>
+            
+            <form id="edit-tag-form" onsubmit="handleEditTagSubmit(event)">
+                <input type="hidden" id="edit-tag-type">
+                <input type="hidden" id="edit-tag-old-val">
+
+                <div>
+                    <label style="font-weight:bold;">Nama Tag</label>
+                    <input type="text" id="edit-tag-name" required>
+                </div>
+
+                <div id="edit-tag-coords" class="hidden">
+                    <div>
+                        <label style="font-weight:bold;">Posisi X (%)</label>
+                        <input type="number" id="edit-tag-x">
+                    </div>
+                    <div>
+                        <label style="font-weight:bold;">Posisi Y (%)</label>
+                        <input type="number" id="edit-tag-y">
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" onclick="closeEditTagModal()" style="padding: 8px 16px; margin-right: 10px;">Batal</button>
+                    <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="main-footer">
+        <p>&copy; 2025 Dino Encyclopedia by Hiramiko</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

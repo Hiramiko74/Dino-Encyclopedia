@@ -1,0 +1,487 @@
+/* Reset & Base */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f2f2e5;
+    color: #333;
+    line-height: 1.6;
+    padding-bottom: 2rem;
+}
+
+/* Layout */
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: #5d4037;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    color: #f7f7e8;
+}
+
+.hidden { display: none !important; }
+
+/* Header */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #795548;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+.highlight { color: #ef5350; }
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+/* Maps */
+.map-container {
+    position: relative;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #4e342e;
+}
+.map-container img {
+    width: 100%;
+    display: block;
+    opacity: 0.8;
+}
+.hint { text-align: center; font-style: italic; font-size: 0.8rem; margin-top: 10px; opacity: 0.8; }
+
+.map-point {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #e53935;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.map-point:hover { transform: translate(-50%, -50%) scale(1.3); background: #ffa726; }
+.map-point.primary { background: #43a047; }
+
+/* Admin UI */
+#admin-ui {
+    background: #fff;
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+}
+.admin-header {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+.tabs button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #666;
+    border-bottom: 3px solid transparent;
+}
+.tabs button.active {
+    color: #5d4037;
+    border-bottom-color: #5d4037;
+    font-weight: bold;
+}
+
+/* Table & Filters */
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 6px;
+    align-items: center;
+}
+select, input, textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#table-wrapper { overflow-x: auto; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+th { background: #f9f9f9; cursor: pointer; }
+th:hover { background: #eee; }
+
+/* Buttons */
+.btn-primary {
+    background: #2e7d32;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-primary:hover { background: #1b5e20; }
+
+.btn-danger {
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+.btn-edit {
+    background: #1565c0;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+/* Forms */
+.form-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+.form-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+.form-group { margin-bottom: 15px; flex: 1; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; }
+.form-row { display: flex; gap: 15px; }
+.checkbox-group { display: flex; align-items: center; gap: 10px; }
+.checkbox-group input { width: auto; }
+
+/* Grid for Tags */
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+.tag-card { background: #f0f0f0; padding: 15px; border-radius: 6px; }
+.tag-item { display: flex; justify-content: space-between; background: #fff; padding: 5px 10px; margin-bottom: 5px; border-radius: 4px; }
+
+/* Modal */
+#modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+.modal-card {
+    background: white;
+    color: #333;
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.btn-close {
+    background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #999;
+}
+.btn-close:hover { color: #333; }
+
+/* Toast */
+#status-toast {
+    position: fixed; bottom: 20px; right: 20px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    display: none;
+    z-index: 2000;
+}
+.success { background: #2e7d32; }
+.error { background: #c62828; }
+
+/* --- FOOTER FULL WIDTH --- */
+.main-footer {
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 50px;
+    
+    background-color: #000000;
+    color: #f7f7e8;
+    
+    width: 100%;
+    position: relative;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+    
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+/* --- MODAL POPUP --- */
+
+/* 1. Latar Belakang Gelap (Overlay) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+/* Helper agar modal benar-benar hilang saat ada class hidden */
+.modal-overlay.hidden {
+    display: none !important;
+}
+
+/* 2. Style Input di dalam Modal Edit */
+#edit-tag-coords {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+#edit-tag-coords div {
+    flex: 1;
+}
+.modal-card input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 3. Tombol Aksi di Modal */
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+/* --- UPDATE LAYOUT DETAIL DINO --- */
+.dino-detail-layout {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+.detail-left {
+    flex: 0 0 220px;
+    border-right: 1px solid #f0f0f0;
+    padding-right: 20px;
+}
+
+.detail-right {
+    flex: 1;
+}
+
+/* Style Link */
+.interactive-link {
+    color: #1565c0;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s;
+    border-bottom: 1px dashed transparent;
+}
+.interactive-link:hover {
+    color: #0d47a1;
+    border-bottom-color: #0d47a1;
+}
+
+/* Tabel Stats */
+.stats-table {
+    width: 100%;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    border-collapse: collapse;
+}
+.stats-table td {
+    padding: 6px 0;
+    border-bottom: 1px solid #f5f5f5;
+    vertical-align: top;
+}
+.stats-label {
+    font-weight: 600;
+    color: #888;
+    width: 80px;
+}
+.stats-value {
+    color: #333;
+    font-weight: 600;
+    padding-left: 5px;
+}
+
+/*List Dinosaurus*/
+.list-item-thumb {
+    width: 60px;
+    height: 40px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.list-item-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Responsif HP */
+@media (max-width: 600px) {
+    .dino-detail-layout { flex-direction: column; }
+    .detail-left { 
+        flex: none; width: 100%; 
+        border-right: none; border-bottom: 1px solid #eee; 
+        padding-right: 0; padding-bottom: 20px; margin-bottom: 20px;
+    }
+}
+
+/* --- WARNA LABEL DIET --- */
+.badge-diet {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid transparent;
+    display: inline-block;
+}
+
+/* Karnivora */
+.diet-karnivora {
+    background-color: #ffebee;
+    color: #c62828;
+    border-color: #ffcdd2;
+}
+
+/* Herbivora */
+.diet-herbivora {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-color: #c8e6c9;
+}
+
+/* Omnivora */
+.diet-omnivora {
+    background-color: #fff3e0;
+    color: #ef6c00;
+    border-color: #ffe0b2;
+}
+
+/* Fallback */
+.diet-other {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border-color: #bbdefb;
+}
+
+/* --- FOLDABLE & PUBLIC LIST --- */
+.accordion-header {
+    background-color: #5d4037;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.2s;
+}
+.accordion-header:hover {
+    background-color: #4e342e;
+}
+.accordion-icon {
+    transition: transform 0.3s;
+}
+.accordion-open .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 20px;
+    display: none;
+}
+.accordion-content.show {
+    display: block;
+}
+
+/* Toolbar di atas list publik */
+.public-toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+.sort-btn {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555;
+}
+.sort-btn:hover { background: #eee; color: #333; }
+.sort-btn.active { border-color: #5d4037; color: #5d4037; background: #efebe9; }
+
+/* Grid List Publik */
+.public-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+.dino-card-mini {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: white;
+}
+.dino-card-mini:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-color: #d7ccc8;
+}
